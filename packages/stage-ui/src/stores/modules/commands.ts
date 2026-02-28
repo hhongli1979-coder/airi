@@ -86,7 +86,7 @@ export const useCommandsStore = defineStore('modules:commands', () => {
     if (!match)
       return text
 
-    return match.expansion.replace(/\{\{input\}\}/gi, userInput)
+    return match.expansion.replace(/\{\{input\}\}/g, userInput)
   }
 
   /**

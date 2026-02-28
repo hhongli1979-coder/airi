@@ -25,8 +25,12 @@ const stepLabel: Record<string, (args: Record<string, unknown>) => string> = {
 }
 
 function parseArgs(): Record<string, unknown> {
-  try { return JSON.parse(props.args) }
-  catch { return {} }
+  try {
+    return JSON.parse(props.args)
+  }
+  catch {
+    return {}
+  }
 }
 
 function parseResults(): Array<{ title: string, url: string, snippet: string }> | null {
@@ -93,7 +97,10 @@ const sources = parseResults()
         >
           <div flex="~ row items-center gap-1.5">
             <img
-              :src="`https://www.google.com/s2/favicons?domain=${new URL(src.url).hostname}&sz=16`"
+              :src="(() => {
+                try { return `https://www.google.com/s2/favicons?domain=${new URL(src.url).hostname}&sz=16` }
+                catch { return '' }
+              })()"
               width="12"
               height="12"
               :class="['rounded-sm shrink-0']"
@@ -101,7 +108,10 @@ const sources = parseResults()
               loading="lazy"
             >
             <span :class="['text-xs text-neutral-500 dark:text-neutral-400 truncate']">
-              {{ new URL(src.url).hostname.replace(/^www\./, '') }}
+              {{ (() => {
+                try { return new URL(src.url).hostname.replace(/^www\./, '') }
+                catch { return src.url }
+              })() }}
             </span>
           </div>
           <span :class="['text-xs font-medium text-neutral-700 dark:text-neutral-300 line-clamp-2 leading-tight']">

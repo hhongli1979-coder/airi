@@ -462,6 +462,19 @@ pages:
       messaging: Messaging
       gaming: Gaming
       intelligence: Intelligence
+    goals:
+      title: Goals & Objectives
+      description: Define objectives AIRI always keeps in focus during conversations
+      enable: Enable Goals
+      enable-description: Active goals are injected into every chat context
+      hint: Goals keep AIRI aligned with what you care about most. They are always visible to AIRI, not just for the current message.
+      goals-title: Active Goals
+      goals-empty: No goals set yet. Add one to focus AIRI's attention.
+      add: Add Goal
+      add-placeholder: "e.g. Help me learn Vue 3, Assist with project Alpha"
+      save: Save
+      delete: Remove
+      configured: Goals are active!
     messaging-discord:
       description: Chat & voice chat over Discord
       title: Discord

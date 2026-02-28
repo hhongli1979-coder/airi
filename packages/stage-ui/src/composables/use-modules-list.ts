@@ -9,6 +9,7 @@ import { useConsciousnessStore } from '../stores/modules/consciousness'
 import { useDiscordStore } from '../stores/modules/discord'
 import { useFactorioStore } from '../stores/modules/gaming-factorio'
 import { useMinecraftStore } from '../stores/modules/gaming-minecraft'
+import { useGoalsStore } from '../stores/modules/goals'
 import { useHearingStore } from '../stores/modules/hearing'
 import { useLongTermMemoryStore } from '../stores/modules/memory-long-term'
 import { useShortTermMemoryStore } from '../stores/modules/memory-short-term'
@@ -45,6 +46,7 @@ export function useModulesList() {
   const longTermMemoryStore = useLongTermMemoryStore()
   const webSearchStore = useWebSearchStore()
   const selfLearningStore = useSelfLearningStore()
+  const goalsStore = useGoalsStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -145,6 +147,15 @@ export function useModulesList() {
       to: '/settings/modules/mcp',
       configured: false,
       category: 'essential',
+    },
+    {
+      id: 'goals',
+      name: t('settings.pages.modules.goals.title'),
+      description: t('settings.pages.modules.goals.description'),
+      icon: 'i-solar:target-bold-duotone',
+      to: '/settings/modules/goals',
+      configured: goalsStore.configured,
+      category: 'intelligence',
     },
     {
       id: 'web-search',

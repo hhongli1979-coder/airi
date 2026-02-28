@@ -121,8 +121,8 @@ export const useLongTermMemoryStore = defineStore('memory:long-term', () => {
     const oneWeekMs = 7 * 24 * 60 * 60 * 1000
     entries.value = entries.value
       .map((entry) => {
-        const ageDays = (now - entry.updatedAt) / oneWeekMs
-        const decayed = entry.confidence - decayRate * ageDays
+        const ageWeeks = (now - entry.updatedAt) / oneWeekMs
+        const decayed = entry.confidence - decayRate * ageWeeks
         return { ...entry, confidence: Math.max(0, decayed) }
       })
       .filter(entry => entry.confidence >= pruneBelow)

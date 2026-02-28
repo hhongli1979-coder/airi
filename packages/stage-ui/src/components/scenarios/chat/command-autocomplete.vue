@@ -10,7 +10,7 @@ import { computed, ref } from 'vue'
  *
  * Emits `select` with the full expansion string for the chosen command.
  */
-import { useCommandsStore } from '../../stores/modules/commands'
+import { useCommandsStore } from '../../../stores/modules/commands'
 
 const props = defineProps<{
   input: string
