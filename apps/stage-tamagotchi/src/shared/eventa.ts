@@ -188,3 +188,50 @@ export const computerUseGetCursorPos = defineInvokeEventa<{ x: number, y: number
 export const computerUseGetScreenSize = defineInvokeEventa<{ width: number, height: number }>(
   'eventa:invoke:computer-use:screen:size',
 )
+
+// ── Browser Automation ───────────────────────────────────────────────────────
+// Contracts for AI-driven web automation: navigate, fill, click, read pages.
+// Powered by a headless Electron BrowserWindow — no Puppeteer/Playwright needed.
+
+export interface BrowserAutoElement {
+  tag: string
+  id?: string
+  name?: string
+  type?: string
+  placeholder?: string
+  value?: string
+  text?: string
+  href?: string
+  selector: string
+}
+
+export interface BrowserAutoPageInfo {
+  url: string
+  title: string
+  readyState: string
+}
+
+export const browserAutoNavigate = defineInvokeEventa<BrowserAutoPageInfo, { url: string, waitMs?: number }>(
+  'eventa:invoke:browser-auto:navigate',
+)
+export const browserAutoGetPageInfo = defineInvokeEventa<BrowserAutoPageInfo>(
+  'eventa:invoke:browser-auto:page-info',
+)
+export const browserAutoGetHtml = defineInvokeEventa<{ html: string, url: string }>(
+  'eventa:invoke:browser-auto:get-html',
+)
+export const browserAutoFindElements = defineInvokeEventa<BrowserAutoElement[], { selector: string, limit?: number }>(
+  'eventa:invoke:browser-auto:find-elements',
+)
+export const browserAutoFillInput = defineInvokeEventa<{ success: boolean }, { selector: string, value: string }>(
+  'eventa:invoke:browser-auto:fill-input',
+)
+export const browserAutoClick = defineInvokeEventa<{ success: boolean }, { selector: string }>(
+  'eventa:invoke:browser-auto:click',
+)
+export const browserAutoEval = defineInvokeEventa<{ result: unknown }, { js: string }>(
+  'eventa:invoke:browser-auto:eval',
+)
+export const browserAutoClose = defineInvokeEventa<void>(
+  'eventa:invoke:browser-auto:close',
+)

@@ -1,5 +1,7 @@
 export * from './airi-card'
+export * from './browser-auto'
 export * from './commands'
+export * from './computer-use'
 export * from './consciousness'
 export * from './discord'
 export * from './gaming-factorio'

@@ -479,6 +479,7 @@ pages:
       cancel: Cancel
       save: Save
       create: Create
+      create-disabled-hint: Workflow name and definition are required
       configured: Lobster is configured and ready!
     repo-reader:
       title: Repo Reader
@@ -490,6 +491,22 @@ pages:
       github-token-placeholder: ghp_...
       note: "Public repositories work without a token (60 req/hour). Add a token for higher rate limits and private repo access."
       configured: Repo Reader is configured!
+    computer-use:
+      title: Computer Use
+      description: Let AIRI see and control the desktop — screenshot, mouse, keyboard
+      enable: Enable Computer Use
+      enable-description: Gives AIRI 7 tools to observe and interact with the desktop (screenshot, mouse move/click, keyboard type/press, screen size, cursor position)
+      note: "Requires the Electron desktop app. Mouse/keyboard automation uses platform tools: cliclick (macOS), xdotool (Linux), or PowerShell (Windows). Screenshot uses Electron's built-in screen capture."
+      tools-title: Available Tools
+      configured: Computer Use is enabled!
+    browser-auto:
+      title: Browser Automation
+      description: AI fills web forms, navigates pages, and clicks buttons in a built-in browser
+      enable: Enable Browser Automation
+      enable-description: "Gives AIRI a browser it can control: navigate URLs, read page HTML, fill inputs, click buttons. Great for filling registration forms on regular websites."
+      note: "Works on regular websites. Sites with CAPTCHA, SMS verification, or biometric checks will pause and ask you to complete those steps manually. Financial/bank accounts require human KYC verification by law."
+      tools-title: Available Tools
+      configured: Browser Automation is enabled!
     categories:
       essential: Essential
       messaging: Messaging

@@ -4,7 +4,9 @@ import { getBeatSyncState, listenBeatSyncStateChange } from '@proj-airi/stage-sh
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import { useBrowserAutoStore } from '../stores/modules/browser-auto'
 import { useCommandsStore } from '../stores/modules/commands'
+import { useComputerUseStore } from '../stores/modules/computer-use'
 import { useConsciousnessStore } from '../stores/modules/consciousness'
 import { useDiscordStore } from '../stores/modules/discord'
 import { useFactorioStore } from '../stores/modules/gaming-factorio'
@@ -53,6 +55,8 @@ export function useModulesList() {
   const visionStore = useVisionStore()
   const lobsterStore = useLobsterStore()
   const repoReaderStore = useRepoReaderStore()
+  const computerUseStore = useComputerUseStore()
+  const browserAutoStore = useBrowserAutoStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -197,6 +201,24 @@ export function useModulesList() {
       icon: 'i-solar:widget-bold-duotone',
       to: '/settings/modules/lobster',
       configured: lobsterStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'computer-use',
+      name: t('settings.pages.modules.computer-use.title'),
+      description: t('settings.pages.modules.computer-use.description'),
+      icon: 'i-solar:monitor-smartphone-bold-duotone',
+      to: '/settings/modules/computer-use',
+      configured: computerUseStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'browser-auto',
+      name: t('settings.pages.modules.browser-auto.title'),
+      description: t('settings.pages.modules.browser-auto.description'),
+      icon: 'i-solar:global-bold-duotone',
+      to: '/settings/modules/browser-auto',
+      configured: browserAutoStore.configured,
       category: 'intelligence',
     },
     {

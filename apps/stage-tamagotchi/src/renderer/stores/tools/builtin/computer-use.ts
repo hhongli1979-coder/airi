@@ -2,6 +2,7 @@ import type { Tool } from '@xsai/shared-chat'
 
 import { defineInvoke } from '@moeru/eventa'
 import { createContext } from '@moeru/eventa/adapters/electron/renderer'
+import { useComputerUseStore } from '@proj-airi/stage-ui/stores/modules/computer-use'
 import { tool } from '@xsai/tool'
 import { z } from 'zod'
 
@@ -14,7 +15,6 @@ import {
   computerUseMouseMove,
   computerUseScreenshot,
 } from '../../../shared/eventa'
-import { useComputerUseStore } from '../../modules/computer-use'
 
 type ComputerUseInvokers = ReturnType<typeof createInvokers>
 let cachedInvokers: ComputerUseInvokers | undefined

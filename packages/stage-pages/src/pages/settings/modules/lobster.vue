@@ -169,7 +169,12 @@ function cancel() {
           <Button variant="ghost" size="sm" @click="cancel">
             {{ t('settings.pages.modules.lobster.cancel') }}
           </Button>
-          <Button size="sm" :disabled="!form.name.trim() || !form.definition.trim()" @click="save">
+          <Button
+            size="sm"
+            :disabled="!form.name.trim() || !form.definition.trim()"
+            :aria-label="(!form.name.trim() || !form.definition.trim()) ? t('settings.pages.modules.lobster.create-disabled-hint') : undefined"
+            @click="save"
+          >
             {{ editingId ? t('settings.pages.modules.lobster.save') : t('settings.pages.modules.lobster.create') }}
           </Button>
         </div>

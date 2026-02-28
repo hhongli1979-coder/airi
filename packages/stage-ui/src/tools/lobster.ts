@@ -97,10 +97,18 @@ export async function lobster() {
           for (const step of steps) {
             if (!step.command)
               continue
-            // Substitute ${key} placeholders from args
+            // NOTICE: Argument substitution uses shell-escaping via JSON.stringify
+            // (which produces a double-quoted string safe for sh) to prevent
+            // command injection when user-provided values contain shell metacharacters.
             const cmd = step.command.replace(
               /\$\{([\w-]+)\}/g,
-              (_match: string, key: string) => (key in args ? String(args[key]) : `\${${key}}`),
+              (_match: string, key: string) => {
+                if (!(key in args))
+                  return `\${${key}}`
+                // Shell-safe quoting: produce 'value' with internal single quotes escaped
+                const val = String(args[key]).replace(/'/g, `'\\''`)
+                return `'${val}'`
+              },
             )
             workflow.pipe(exec(cmd))
             if (step.approval === true || step.approval === 'required') {
@@ -223,12 +231,21 @@ export async function lobster() {
  * ships as a transitive dependency of `@clawdbot/lobster`.
  */
 async function parseYamlSafe(text: string): Promise<unknown> {
+  let yamlError: unknown
   try {
     const { parse } = await import('yaml')
     return parse(text)
   }
-  catch {
-    // yaml not available — fall back to JSON
+  catch (err) {
+    yamlError = err
+  }
+  try {
     return JSON.parse(text)
+  }
+  catch (jsonErr) {
+    throw new Error(
+      `Failed to parse as YAML (${yamlError instanceof Error ? yamlError.message : String(yamlError)}) `
+      + `or JSON (${jsonErr instanceof Error ? jsonErr.message : String(jsonErr)})`,
+    )
   }
 }

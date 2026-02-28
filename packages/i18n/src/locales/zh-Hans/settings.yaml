@@ -442,6 +442,7 @@ pages:
       cancel: 取消
       save: 保存
       create: 创建
+      create-disabled-hint: 工作流名称和定义不能为空
       configured: Lobster 已配置，随时可用！
     repo-reader:
       title: 代码库阅读
@@ -453,6 +454,22 @@ pages:
       github-token-placeholder: ghp_...
       note: 公开代码库无需令牌（每小时 60 次请求）。添加令牌后可获得更高频率限制（每小时 5000 次）并可访问私有代码库。
       configured: 代码库阅读已配置！
+    computer-use:
+      title: 电脑操控
+      description: 让 AIRI 看到并控制桌面——截图、鼠标、键盘
+      enable: 启用电脑操控
+      enable-description: 为 AIRI 添加 7 个工具：截图、鼠标移动/点击、键盘输入/快捷键、屏幕尺寸、光标位置
+      note: '需要 Electron 桌面端。鼠标/键盘自动化使用系统工具：cliclick（macOS）、xdotool（Linux）或 PowerShell（Windows）。截图使用 Electron 内置的屏幕捕获。'
+      tools-title: 可用工具
+      configured: 电脑操控已启用！
+    browser-auto:
+      title: 浏览器自动化
+      description: AI 在内置浏览器中填写网页表单、导航页面、点击按钮
+      enable: 启用浏览器自动化
+      enable-description: '为 AIRI 提供一个可控制的浏览器：访问网址、读取页面 HTML、填写输入框、点击按钮。非常适合在普通网站上自动填写注册表单。'
+      note: '适用于普通网站。遇到验证码、短信验证或人脸识别时，将暂停并请你手动完成。银行等金融账户依法需要人工 KYC 身份核验，无法自动化。'
+      tools-title: 可用工具
+      configured: 浏览器自动化已启用！
   providers:
     explained:
       chat: 文本生成模型服务来源，例如 OpenRouter, OpenAI, Ollama

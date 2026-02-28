@@ -5,6 +5,8 @@ import { z } from 'zod'
 import { useRepoReaderStore } from '../stores/modules/repo-reader'
 
 const GITHUB_API = 'https://api.github.com'
+const DEFAULT_MAX_FILE_LENGTH = 12_000
+const ABSOLUTE_MAX_FILE_LENGTH = 16_000
 
 /**
  * Build common request headers for the GitHub API.
@@ -76,7 +78,7 @@ export async function repoReader() {
 
           if (data.encoding === 'base64' && data.content) {
             const decoded = atob(data.content.replace(/\n/g, ''))
-            const limit = Math.min(maxLength ?? 12000, 16000)
+            const limit = Math.min(maxLength ?? DEFAULT_MAX_FILE_LENGTH, ABSOLUTE_MAX_FILE_LENGTH)
             if (decoded.length > limit) {
               return `${decoded.slice(0, limit)}\n\n[Truncated — ${decoded.length - limit} more characters. Use maxLength to increase the limit.]`
             }
@@ -88,7 +90,7 @@ export async function repoReader() {
             const raw = await ofetch<string>(data.download_url, {
               parseResponse: txt => txt,
             })
-            const limit = Math.min(maxLength ?? 12000, 16000)
+            const limit = Math.min(maxLength ?? DEFAULT_MAX_FILE_LENGTH, ABSOLUTE_MAX_FILE_LENGTH)
             return raw.length > limit
               ? `${raw.slice(0, limit)}\n\n[Truncated — ${raw.length - limit} more characters.]`
               : raw
