@@ -9,8 +9,12 @@ import { useDiscordStore } from '../stores/modules/discord'
 import { useFactorioStore } from '../stores/modules/gaming-factorio'
 import { useMinecraftStore } from '../stores/modules/gaming-minecraft'
 import { useHearingStore } from '../stores/modules/hearing'
+import { useCommandsStore } from '../stores/modules/commands'
+import { useLongTermMemoryStore } from '../stores/modules/memory-long-term'
+import { useShortTermMemoryStore } from '../stores/modules/memory-short-term'
 import { useSpeechStore } from '../stores/modules/speech'
 import { useTwitterStore } from '../stores/modules/twitter'
+import { useWebSearchStore } from '../stores/modules/web-search'
 
 export interface Module {
   id: string
@@ -35,6 +39,10 @@ export function useModulesList() {
   const twitterStore = useTwitterStore()
   const minecraftStore = useMinecraftStore()
   const factorioStore = useFactorioStore()
+  const commandsStore = useCommandsStore()
+  const shortTermMemoryStore = useShortTermMemoryStore()
+  const longTermMemoryStore = useLongTermMemoryStore()
+  const webSearchStore = useWebSearchStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -80,7 +88,7 @@ export function useModulesList() {
       description: t('settings.pages.modules.memory-short-term.description'),
       icon: 'i-solar:bookmark-bold-duotone',
       to: '/settings/modules/memory-short-term',
-      configured: false,
+      configured: shortTermMemoryStore.configured,
       category: 'essential',
     },
     {
@@ -89,7 +97,7 @@ export function useModulesList() {
       description: t('settings.pages.modules.memory-long-term.description'),
       icon: 'i-solar:book-bookmark-bold-duotone',
       to: '/settings/modules/memory-long-term',
-      configured: false,
+      configured: longTermMemoryStore.configured,
       category: 'essential',
     },
     {
