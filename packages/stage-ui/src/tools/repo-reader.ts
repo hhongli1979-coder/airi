@@ -68,7 +68,7 @@ export async function repoReader() {
             name?: string
             download_url?: string | null
           }>(url, {
-            headers: githubHeaders(token.value),
+            headers: githubHeaders(token),
             query: params,
           })
 
@@ -137,7 +137,7 @@ export async function repoReader() {
               tree: Array<{ path: string, type: string, size?: number }>
               truncated: boolean
             }>(`${treeUrl}?recursive=1`, {
-              headers: githubHeaders(token.value),
+              headers: githubHeaders(token),
             })
 
             const entries = treeData.tree
@@ -164,7 +164,7 @@ export async function repoReader() {
             size: number
             path: string
           }>>(url, {
-            headers: githubHeaders(token.value),
+            headers: githubHeaders(token),
             query: params,
           })
 
@@ -231,7 +231,7 @@ export async function repoReader() {
             }>
           }>(`${GITHUB_API}/search/code`, {
             headers: {
-              ...githubHeaders(token.value),
+              ...githubHeaders(token),
               // text-match media type needed for fragments
               Accept: 'application/vnd.github.text-match+json',
             },
@@ -296,7 +296,7 @@ export async function repoReader() {
             private: boolean
             visibility: string
           }>(`${GITHUB_API}/repos/${owner}/${repo}`, {
-            headers: githubHeaders(token.value),
+            headers: githubHeaders(token),
           })
 
           const lines = [

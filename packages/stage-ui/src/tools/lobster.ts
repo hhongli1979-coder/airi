@@ -49,6 +49,9 @@ export async function lobster() {
 
         try {
           // Dynamically import lobster to avoid breaking browser builds.
+          // NOTICE: @clawdbot/lobster ships no TypeScript types.
+          // eslint-disable-next-line ts/ban-ts-comment
+          // @ts-ignore
           const lobsterPkg = await import('@clawdbot/lobster')
           const { Lobster, exec } = lobsterPkg as any
 
@@ -179,6 +182,9 @@ export async function lobster() {
           return 'Lobster module is disabled.'
 
         try {
+          // NOTICE: @clawdbot/lobster ships no TypeScript types.
+          // eslint-disable-next-line ts/ban-ts-comment
+          // @ts-ignore
           const lobsterPkg = await import('@clawdbot/lobster')
           const { Lobster } = lobsterPkg as any
 

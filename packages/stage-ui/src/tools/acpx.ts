@@ -88,9 +88,9 @@ export async function codeAgent() {
   if (!store.enabled)
     return []
 
-  const agent = store.defaultAgent.value || 'opencode'
-  const cwd = store.defaultCwd.value || undefined
-  const permFlag = `--${store.permissionMode.value || 'approve-reads'}`
+  const agent = store.defaultAgent || 'opencode'
+  const cwd = store.defaultCwd || undefined
+  const permFlag = `--${store.permissionMode || 'approve-reads'}`
 
   return await Promise.all([
 
