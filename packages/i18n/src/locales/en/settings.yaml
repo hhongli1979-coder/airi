@@ -457,6 +457,29 @@ pages:
       error-no-search: Please configure Web Search first
       error-no-topics: Please add at least one learning topic
       configured: Self-learning is active!
+    lobster:
+      title: Lobster Workflows
+      description: Run deterministic, typed automation pipelines with approval gates
+      enable: Enable Lobster Workflows
+      enable-description: Adds lobster_run_workflow and lobster_resume_workflow tools AIRI can call to execute structured automation
+      note: Lobster executes shell commands and requires Node.js. It is fully functional in the Electron desktop app. On web/mobile, tools are available but command execution is disabled.
+      workflows-title: Saved Workflows
+      workflows-description: Define YAML or JSON workflows AIRI can run by name
+      workflows-empty: No workflows saved yet. Click "Add Workflow" to create one.
+      add-workflow: Add Workflow
+      edit: Edit
+      delete: Delete
+      workflow-name: Workflow Name
+      workflow-name-placeholder: "e.g. pr-monitor, inbox-triage"
+      workflow-description: Description (optional)
+      workflow-description-placeholder: "What does this workflow do?"
+      workflow-definition: Workflow Definition (YAML or JSON)
+      workflow-definition-description: "steps: each step needs id and command fields. Use ${key} for args, $step.json for step output references."
+      workflow-definition-placeholder: "name: my-workflow\nsteps:\n  - id: run\n    command: echo hello"
+      cancel: Cancel
+      save: Save
+      create: Create
+      configured: Lobster is configured and ready!
     categories:
       essential: Essential
       messaging: Messaging

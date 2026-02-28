@@ -11,6 +11,7 @@ import { useFactorioStore } from '../stores/modules/gaming-factorio'
 import { useMinecraftStore } from '../stores/modules/gaming-minecraft'
 import { useGoalsStore } from '../stores/modules/goals'
 import { useHearingStore } from '../stores/modules/hearing'
+import { useLobsterStore } from '../stores/modules/lobster'
 import { useLongTermMemoryStore } from '../stores/modules/memory-long-term'
 import { useShortTermMemoryStore } from '../stores/modules/memory-short-term'
 import { useSelfLearningStore } from '../stores/modules/self-learning'
@@ -49,6 +50,7 @@ export function useModulesList() {
   const selfLearningStore = useSelfLearningStore()
   const goalsStore = useGoalsStore()
   const visionStore = useVisionStore()
+  const lobsterStore = useLobsterStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -184,6 +186,15 @@ export function useModulesList() {
       icon: 'i-solar:atom-bold-duotone',
       to: '/settings/modules/self-learning',
       configured: selfLearningStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'lobster',
+      name: t('settings.pages.modules.lobster.title'),
+      description: t('settings.pages.modules.lobster.description'),
+      icon: 'i-solar:widget-bold-duotone',
+      to: '/settings/modules/lobster',
+      configured: lobsterStore.configured,
       category: 'intelligence',
     },
     {
