@@ -19,8 +19,8 @@ import { createChatHooks } from './chat/hooks'
 import { useChatSessionStore } from './chat/session-store'
 import { useChatStreamStore } from './chat/stream-store'
 import { useLLM } from './llm'
-import { useConsciousnessStore } from './modules/consciousness'
 import { useCommandsStore } from './modules/commands'
+import { useConsciousnessStore } from './modules/consciousness'
 import { useShortTermMemoryStore } from './modules/memory-short-term'
 
 interface SendOptions {

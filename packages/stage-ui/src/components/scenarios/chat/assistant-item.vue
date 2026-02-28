@@ -59,6 +59,8 @@ const boxClasses = computed(() => [
             v-if="slice.type === 'tool-call'"
             :tool-name="slice.toolCall.toolName"
             :args="slice.toolCall.args"
+            :result="(message.tool_results?.find(r => r.id === slice.toolCall.toolCallId)?.result as string | undefined)"
+            :is-streaming="props.showPlaceholder"
             class="mb-2"
           />
           <template v-else-if="slice.type === 'tool-call-result'" />

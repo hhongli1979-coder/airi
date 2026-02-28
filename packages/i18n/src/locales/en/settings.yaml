@@ -356,9 +356,112 @@ pages:
     memory-long-term:
       description: Long-term memory specific settings and management
       title: Long-Term Memory
+      enable: Enable Long-Term Memory
+      enable-description: Inject remembered facts into every chat context
+      max-injected: Max entries injected per chat
+      max-injected-description: Highest-confidence entries are preferred (0 = all)
+      entries-title: Stored Memories
+      entries-empty: No memories stored yet. Add one below or enable self-learning.
+      add-entry: Add Memory
+      add-entry-placeholder: Enter a fact AIRI should always remember...
+      entry-tags-placeholder: Tags (comma-separated, optional)
+      delete-entry: Delete
+      clear-all: Clear All Memories
+      clear-all-confirm: Delete all stored memories? This cannot be undone.
+      confidence: Confidence
+      source-manual: Manual
+      source-self-learning: Self-learned
     memory-short-term:
       description: Short-term memory specific settings and management
       title: Short-Term Memory
+      enable: Enable Context Window Trimming
+      enable-description: Automatically trim older messages to keep prompts concise
+      max-messages: Max messages in context
+      max-messages-description: Oldest non-system messages are trimmed first (0 = unlimited)
+      max-tokens: Approximate token budget
+      max-tokens-description: "Rough limit on context history size: 1 token ≈ 4 characters (0 = unlimited)"
+      summarize-on-trim: Summarize trimmed messages
+      summarize-on-trim-description: Prepend a brief summary of trimmed history so AIRI doesn't lose context
+    commands:
+      title: Commands
+      description: Custom slash-command shortcuts that expand into full prompts
+      enable: Enable Commands
+      enable-description: Expand /command shortcuts before sending to the AI
+      add-command: Add Command
+      trigger: Trigger
+      trigger-placeholder: "/translate"
+      trigger-description: "Slash command trigger, e.g. /translate"
+      expansion: Expansion
+      expansion-placeholder: "Translate the following to Chinese: {{input}}"
+      expansion-description: "Full prompt to send. Use {{input}} for the user's argument."
+      description-label: Description
+      description-placeholder: Short description shown in autocomplete
+      save: Save
+      cancel: Cancel
+      delete: Delete
+      commands-empty: No commands yet. Add one to get started.
+      hint: "Use {{input}} as a placeholder for text typed after the trigger, e.g. /tr hello → Translate hello to Chinese."
+    web-search:
+      title: Web Search
+      description: Let AIRI search the web for up-to-date information
+      enable: Enable Web Search
+      enable-description: Adds a web_search tool AIRI can call during conversations
+      backend: Search Backend
+      backend-description: Choose which search service to use
+      backend-duckduckgo: DuckDuckGo (free, no key needed, limited results)
+      backend-searxng: SearXNG (self-hosted, privacy-friendly)
+      backend-brave: Brave Search (API key required, full results)
+      searxng-url: SearXNG URL
+      searxng-url-description: Base URL of your SearXNG instance, e.g. https://searx.example.com
+      searxng-url-placeholder: https://searx.example.com
+      brave-api-key: Brave API Key
+      brave-api-key-description: Your Brave Search API key (free tier at brave.com/search/api)
+      brave-api-key-placeholder: Enter Brave Search API key
+      max-results: Max results per query
+      max-results-description: Number of search results returned to AIRI (1–10)
+      configured: Web search is properly configured!
+      reader-note: AIRI can also read full web pages using the built-in Jina AI reader (no key needed).
+    self-learning:
+      title: Self-Learning
+      description: AIRI automatically browses the web and saves what it learns to long-term memory
+      enable: Enable Self-Learning
+      enable-description: AIRI will search the web on configured topics and extract insights
+      schedule: Learning Schedule
+      schedule-manual: Manual (trigger only on demand)
+      schedule-hourly: Every hour
+      schedule-daily: Once a day
+      schedule-weekly: Once a week
+      max-pages: Max pages read per topic
+      max-pages-description: More pages = richer learning, but slower and uses more tokens
+      verbose: Show learning summary after each run
+      topics-title: Learning Topics
+      topics-empty: No topics yet. Add subjects you want AIRI to stay current on.
+      add-topic: Add Topic
+      topic-name: Topic Name
+      topic-name-placeholder: "e.g. TypeScript, Vue 3, AI models"
+      topic-hint: Focus Hint (optional)
+      topic-hint-placeholder: "e.g. focus on latest features in 2025"
+      topic-enabled: Enabled
+      delete-topic: Remove
+      learn-now: Learn Now
+      learn-now-description: Run the learning loop immediately for all enabled topics
+      learning: Learning…
+      last-run: "Last run: {time}"
+      never-run: Never run
+      run-history: Recent Runs
+      run-done: "Saved {count} insight(s)"
+      run-error: "Error: {message}"
+      run-running: Running…
+      insights-saved: "{count} new insight(s) saved to long-term memory"
+      error-no-provider: Please configure an AI provider first
+      error-no-search: Please configure Web Search first
+      error-no-topics: Please add at least one learning topic
+      configured: Self-learning is active!
+    categories:
+      essential: Essential
+      messaging: Messaging
+      gaming: Gaming
+      intelligence: Intelligence
     messaging-discord:
       description: Chat & voice chat over Discord
       title: Discord
@@ -435,7 +538,6 @@ pages:
     mcp-server:
       description: Connect and manage MCP server and tools
       title: MCP Server
-  providers:
     explained:
       chat: Text generation model providers. e.g. OpenRouter, OpenAI, Ollama.
       Speech: Speech (text-to-speech) model providers. e.g. ElevenLabs, Azure Speech.

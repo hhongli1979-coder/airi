@@ -71,14 +71,14 @@ export const useShortTermMemoryStore = defineStore('memory:short-term', () => {
           ? content
           : Array.isArray(content)
             ? content
-              .map((p: unknown) => {
-                if (typeof p === 'string')
-                  return p
-                if (p && typeof p === 'object' && 'text' in (p as object))
-                  return String((p as { text: unknown }).text ?? '')
-                return ''
-              })
-              .join('')
+                .map((p: unknown) => {
+                  if (typeof p === 'string')
+                    return p
+                  if (p && typeof p === 'object' && 'text' in (p as object))
+                    return String((p as { text: unknown }).text ?? '')
+                  return ''
+                })
+                .join('')
             : JSON.stringify(content)
         tokenEstimate += Math.ceil(text.length / 4)
         if (tokenEstimate > maxTokens.value)
