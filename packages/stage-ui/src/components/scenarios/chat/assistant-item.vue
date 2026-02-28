@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { ChatAssistantMessage, ChatSlices, ChatSlicesText } from '../../../types/chat'
 
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import ChatResponsePart from './response-part.vue'
 import ChatToolCallBlock from './tool-call-block.vue'
 
+import { useLongTermMemoryStore } from '../../../stores/modules/memory-long-term'
 import { MarkdownRenderer } from '../../markdown'
 
 const props = withDefaults(defineProps<{
@@ -17,6 +18,24 @@ const props = withDefaults(defineProps<{
   showPlaceholder: false,
   variant: 'desktop',
 })
+
+// SAFLA delta evaluation: track feedback on individual responses
+const memoryStore = useLongTermMemoryStore()
+type Feedback = 'up' | 'down' | null
+const feedback = ref<Feedback>(null)
+
+function giveFeedback(value: 'up' | 'down') {
+  if (feedback.value === value) {
+    feedback.value = null
+    return
+  }
+  feedback.value = value
+  // Boost or decay confidence of recently used memory entries
+  const recentEntries = memoryStore.sortedEntries.slice(0, 5)
+  recentEntries.forEach(entry =>
+    memoryStore.boostConfidence(entry.id, value === 'up' ? 0.05 : -0.05),
+  )
+}
 
 const resolvedSlices = computed<ChatSlices[]>(() => {
   if (props.message.slices?.length) {
@@ -44,7 +63,7 @@ const boxClasses = computed(() => [
 </script>
 
 <template>
-  <div flex :class="containerClass" class="ph-no-capture">
+  <div flex :class="containerClass" class="ph-no-capture group">
     <div
       flex="~ col" shadow="sm primary-200/50 dark:none"
       min-w-20 rounded-xl h="unset <sm:fit"
@@ -59,6 +78,8 @@ const boxClasses = computed(() => [
             v-if="slice.type === 'tool-call'"
             :tool-name="slice.toolCall.toolName"
             :args="slice.toolCall.args"
+            :result="(message.tool_results?.find(r => r.id === slice.toolCall.toolCallId)?.result as string | undefined)"
+            :is-streaming="props.showPlaceholder"
             class="mb-2"
           />
           <template v-else-if="slice.type === 'tool-call-result'" />
@@ -74,6 +95,37 @@ const boxClasses = computed(() => [
         :message="message"
         :variant="variant"
       />
+
+      <!-- SAFLA delta evaluation: response feedback buttons -->
+      <div
+        v-if="!showPlaceholder && resolvedSlices.length > 0"
+        :class="['flex gap-1 pt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150']"
+      >
+        <button
+          :class="[
+            'rounded p-1 text-xs transition-colors',
+            feedback === 'up'
+              ? 'text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/40'
+              : 'text-neutral-400 hover:text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20',
+          ]"
+          title="Good response"
+          @click="giveFeedback('up')"
+        >
+          <div i-solar:like-bold-duotone />
+        </button>
+        <button
+          :class="[
+            'rounded p-1 text-xs transition-colors',
+            feedback === 'down'
+              ? 'text-red-500 bg-red-100 dark:text-red-400 dark:bg-red-900/40'
+              : 'text-neutral-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20',
+          ]"
+          title="Poor response"
+          @click="giveFeedback('down')"
+        >
+          <div i-solar:dislike-bold-duotone />
+        </button>
+      </div>
     </div>
   </div>
 </template>

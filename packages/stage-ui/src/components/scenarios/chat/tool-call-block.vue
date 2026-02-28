@@ -2,10 +2,18 @@
 import { Collapsible } from '@proj-airi/ui'
 import { computed } from 'vue'
 
+import SearchProgress from './search-progress.vue'
+
 const props = defineProps<{
   toolName: string
   args: string
+  result?: string
+  isStreaming?: boolean
 }>()
+
+const isWebTool = computed(() =>
+  props.toolName === 'web_search' || props.toolName === 'web_read_page',
+)
 
 const formattedArgs = computed(() => {
   try {
@@ -19,7 +27,18 @@ const formattedArgs = computed(() => {
 </script>
 
 <template>
+  <!-- Web tools get the Perplexity-style search progress display -->
+  <SearchProgress
+    v-if="isWebTool"
+    :tool-name="toolName"
+    :args="args"
+    :result="result"
+    :is-streaming="isStreaming"
+  />
+
+  <!-- All other tools fall back to the original collapsible block -->
   <Collapsible
+    v-else
     :class="[
       'bg-primary-100/40 dark:bg-primary-900/60 rounded-lg px-2 pb-2 pt-2',
       'flex flex-col gap-2 items-start',

@@ -13,13 +13,15 @@ import { ref, toRaw } from 'vue'
 import { useAnalytics } from '../composables'
 import { useLlmmarkerParser } from '../composables/llm-marker-parser'
 import { categorizeResponse, createStreamingCategorizer } from '../composables/response-categoriser'
-import { createDatetimeContext } from './chat/context-providers'
+import { createDatetimeContext, createGoalsContext, createLongTermMemoryContext } from './chat/context-providers'
 import { useChatContextStore } from './chat/context-store'
 import { createChatHooks } from './chat/hooks'
 import { useChatSessionStore } from './chat/session-store'
 import { useChatStreamStore } from './chat/stream-store'
 import { useLLM } from './llm'
+import { useCommandsStore } from './modules/commands'
 import { useConsciousnessStore } from './modules/consciousness'
+import { useShortTermMemoryStore } from './modules/memory-short-term'
 
 interface SendOptions {
   model: string
@@ -60,6 +62,11 @@ export const useChatOrchestratorStore = defineStore('chat-orchestrator', () => {
   const chatContext = useChatContextStore()
   const { activeSessionId } = storeToRefs(chatSession)
   const { streamingMessage } = storeToRefs(chatStream)
+
+  // Memory & commands stores – initialised lazily inside the store so Pinia
+  // context is always available when methods are called.
+  const commandsStore = useCommandsStore()
+  const shortTermMemoryStore = useShortTermMemoryStore()
 
   const sending = ref(false)
   const pendingQueuedSends = ref<QueuedSend[]>([])
@@ -106,14 +113,27 @@ export const useChatOrchestratorStore = defineStore('chat-orchestrator', () => {
     if (!sendingMessage && !options.attachments?.length)
       return
 
+    // Expand custom slash commands before anything else
+    const expandedMessage = commandsStore.expandInput(sendingMessage)
+
     chatSession.ensureSession(sessionId)
 
     // Inject current datetime context before composing the message
     chatContext.ingestContextMessage(createDatetimeContext())
 
+    // Inject long-term memory context if the module is enabled and has entries
+    const memoryContext = createLongTermMemoryContext()
+    if (memoryContext)
+      chatContext.ingestContextMessage(memoryContext)
+
+    // Inject active goals context (SAFLA goal engine)
+    const goalsContext = createGoalsContext()
+    if (goalsContext)
+      chatContext.ingestContextMessage(goalsContext)
+
     const sendingCreatedAt = Date.now()
     const streamingMessageContext: ChatStreamEventContext = {
-      message: { role: 'user', content: sendingMessage, createdAt: sendingCreatedAt, id: nanoid() },
+      message: { role: 'user', content: expandedMessage, createdAt: sendingCreatedAt, id: nanoid() },
       contexts: chatContext.getContextsSnapshot(),
       composedMessage: [],
       input: options.input,
@@ -140,9 +160,9 @@ export const useChatOrchestratorStore = defineStore('chat-orchestrator', () => {
     trackFirstMessage()
 
     try {
-      await hooks.emitBeforeMessageComposedHooks(sendingMessage, streamingMessageContext)
+      await hooks.emitBeforeMessageComposedHooks(expandedMessage, streamingMessageContext)
 
-      const contentParts: CommonContentPart[] = [{ type: 'text', text: sendingMessage }]
+      const contentParts: CommonContentPart[] = [{ type: 'text', text: expandedMessage }]
 
       if (options.attachments) {
         for (const attachment of options.attachments) {
@@ -157,12 +177,12 @@ export const useChatOrchestratorStore = defineStore('chat-orchestrator', () => {
         }
       }
 
-      const finalContent = contentParts.length > 1 ? contentParts : sendingMessage
+      const finalContent = contentParts.length > 1 ? contentParts : expandedMessage
       if (!streamingMessageContext.input) {
         streamingMessageContext.input = {
           type: 'input:text',
           data: {
-            text: sendingMessage,
+            text: expandedMessage,
           },
         }
       }
@@ -260,6 +280,9 @@ export const useChatOrchestratorStore = defineStore('chat-orchestrator', () => {
         return rawMessage
       })
 
+      // Apply short-term memory window trimming before injecting context
+      newMessages = shortTermMemoryStore.trimMessages(newMessages) as typeof newMessages
+
       const contextsSnapshot = chatContext.getContextsSnapshot()
       if (Object.keys(contextsSnapshot).length > 0) {
         const system = newMessages.slice(0, 1)
@@ -284,8 +307,8 @@ export const useChatOrchestratorStore = defineStore('chat-orchestrator', () => {
 
       streamingMessageContext.composedMessage = newMessages as Message[]
 
-      await hooks.emitAfterMessageComposedHooks(sendingMessage, streamingMessageContext)
-      await hooks.emitBeforeSendHooks(sendingMessage, streamingMessageContext)
+      await hooks.emitAfterMessageComposedHooks(expandedMessage, streamingMessageContext)
+      await hooks.emitBeforeSendHooks(expandedMessage, streamingMessageContext)
 
       let fullText = ''
       const headers = (options.providerConfig?.headers || {}) as Record<string, string>
@@ -335,7 +358,7 @@ export const useChatOrchestratorStore = defineStore('chat-orchestrator', () => {
       await hooks.emitStreamEndHooks(streamingMessageContext)
       await hooks.emitAssistantResponseEndHooks(fullText, streamingMessageContext)
 
-      await hooks.emitAfterSendHooks(sendingMessage, streamingMessageContext)
+      await hooks.emitAfterSendHooks(expandedMessage, streamingMessageContext)
       await hooks.emitAssistantMessageHooks({ ...buildingMessage }, fullText, streamingMessageContext)
       await hooks.emitChatTurnCompleteHooks({
         output: { ...buildingMessage },

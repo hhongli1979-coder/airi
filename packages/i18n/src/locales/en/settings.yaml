@@ -356,9 +356,125 @@ pages:
     memory-long-term:
       description: Long-term memory specific settings and management
       title: Long-Term Memory
+      enable: Enable Long-Term Memory
+      enable-description: Inject remembered facts into every chat context
+      max-injected: Max entries injected per chat
+      max-injected-description: Highest-confidence entries are preferred (0 = all)
+      entries-title: Stored Memories
+      entries-empty: No memories stored yet. Add one below or enable self-learning.
+      add-entry: Add Memory
+      add-entry-placeholder: Enter a fact AIRI should always remember...
+      entry-tags-placeholder: Tags (comma-separated, optional)
+      delete-entry: Delete
+      clear-all: Clear All Memories
+      clear-all-confirm: Delete all stored memories? This cannot be undone.
+      confidence: Confidence
+      source-manual: Manual
+      source-self-learning: Self-learned
     memory-short-term:
       description: Short-term memory specific settings and management
       title: Short-Term Memory
+      enable: Enable Context Window Trimming
+      enable-description: Automatically trim older messages to keep prompts concise
+      max-messages: Max messages in context
+      max-messages-description: Oldest non-system messages are trimmed first (0 = unlimited)
+      max-tokens: Approximate token budget
+      max-tokens-description: "Rough limit on context history size: 1 token ≈ 4 characters (0 = unlimited)"
+      summarize-on-trim: Summarize trimmed messages
+      summarize-on-trim-description: Prepend a brief summary of trimmed history so AIRI doesn't lose context
+    commands:
+      title: Commands
+      description: Custom slash-command shortcuts that expand into full prompts
+      enable: Enable Commands
+      enable-description: Expand /command shortcuts before sending to the AI
+      add-command: Add Command
+      trigger: Trigger
+      trigger-placeholder: "/translate"
+      trigger-description: "Slash command trigger, e.g. /translate"
+      expansion: Expansion
+      expansion-placeholder: "Translate the following to Chinese: {{input}}"
+      expansion-description: "Full prompt to send. Use {{input}} for the user's argument."
+      description-label: Description
+      description-placeholder: Short description shown in autocomplete
+      save: Save
+      cancel: Cancel
+      delete: Delete
+      commands-empty: No commands yet. Add one to get started.
+      hint: "Use {{input}} as a placeholder for text typed after the trigger, e.g. /tr hello → Translate hello to Chinese."
+    web-search:
+      title: Web Search
+      description: Let AIRI search the web for up-to-date information
+      enable: Enable Web Search
+      enable-description: Adds a web_search tool AIRI can call during conversations
+      backend: Search Backend
+      backend-description: Choose which search service to use
+      backend-duckduckgo: DuckDuckGo (free, no key needed, limited results)
+      backend-searxng: SearXNG (self-hosted, privacy-friendly)
+      backend-brave: Brave Search (API key required, full results)
+      searxng-url: SearXNG URL
+      searxng-url-description: Base URL of your SearXNG instance, e.g. https://searx.example.com
+      searxng-url-placeholder: https://searx.example.com
+      brave-api-key: Brave API Key
+      brave-api-key-description: Your Brave Search API key (free tier at brave.com/search/api)
+      brave-api-key-placeholder: Enter Brave Search API key
+      max-results: Max results per query
+      max-results-description: Number of search results returned to AIRI (1–10)
+      configured: Web search is properly configured!
+      reader-note: AIRI can also read full web pages using the built-in Jina AI reader (no key needed).
+    self-learning:
+      title: Self-Learning
+      description: AIRI automatically browses the web and saves what it learns to long-term memory
+      enable: Enable Self-Learning
+      enable-description: AIRI will search the web on configured topics and extract insights
+      schedule: Learning Schedule
+      schedule-manual: Manual (trigger only on demand)
+      schedule-hourly: Every hour
+      schedule-daily: Once a day
+      schedule-weekly: Once a week
+      max-pages: Max pages read per topic
+      max-pages-description: More pages = richer learning, but slower and uses more tokens
+      verbose: Show learning summary after each run
+      topics-title: Learning Topics
+      topics-empty: No topics yet. Add subjects you want AIRI to stay current on.
+      add-topic: Add Topic
+      topic-name: Topic Name
+      topic-name-placeholder: "e.g. TypeScript, Vue 3, AI models"
+      topic-hint: Focus Hint (optional)
+      topic-hint-placeholder: "e.g. focus on latest features in 2025"
+      topic-enabled: Enabled
+      delete-topic: Remove
+      learn-now: Learn Now
+      learn-now-description: Run the learning loop immediately for all enabled topics
+      learning: Learning…
+      last-run: "Last run: {time}"
+      never-run: Never run
+      run-history: Recent Runs
+      run-done: "Saved {count} insight(s)"
+      run-error: "Error: {message}"
+      run-running: Running…
+      insights-saved: "{count} new insight(s) saved to long-term memory"
+      error-no-provider: Please configure an AI provider first
+      error-no-search: Please configure Web Search first
+      error-no-topics: Please add at least one learning topic
+      configured: Self-learning is active!
+    categories:
+      essential: Essential
+      messaging: Messaging
+      gaming: Gaming
+      intelligence: Intelligence
+    goals:
+      title: Goals & Objectives
+      description: Define objectives AIRI always keeps in focus during conversations
+      enable: Enable Goals
+      enable-description: Active goals are injected into every chat context
+      hint: Goals keep AIRI aligned with what you care about most. They are always visible to AIRI, not just for the current message.
+      goals-title: Active Goals
+      goals-empty: No goals set yet. Add one to focus AIRI's attention.
+      add: Add Goal
+      add-placeholder: "e.g. Help me learn Vue 3, Assist with project Alpha"
+      save: Save
+      delete: Remove
+      configured: Goals are active!
     messaging-discord:
       description: Chat & voice chat over Discord
       title: Discord
@@ -414,6 +530,18 @@ pages:
     vision:
       description: Vision
       title: Vision
+      enable: Enable Vision
+      enable-description: Allow AIRI to see through your camera or screen
+      camera-note-title: Camera permission required
+      camera-note-description: When enabled, AIRI will request access to your camera. You can revoke this in your browser or OS settings at any time.
+      capabilities-title: Capabilities
+      capability-face-tracking-title: Face Tracking
+      capability-face-tracking-description: Track your facial movements to animate AIRI in real time
+      capability-emotion-recognition-title: Emotion Recognition
+      capability-emotion-recognition-description: Detect your emotions from webcam to make interactions more natural
+      capability-screen-reading-title: Screen Reading
+      capability-screen-reading-description: Allow AIRI to read and understand your screen content
+      coming-soon: Coming soon
     x:
       description: X / Twitter browsing and usage
       title: X / Twitter
@@ -435,7 +563,16 @@ pages:
     mcp-server:
       description: Connect and manage MCP server and tools
       title: MCP Server
-  providers:
+      status-connected: Connected
+      status-disconnected: Disconnected
+      server-cmd: Server Command
+      server-cmd-description: The executable command to launch your MCP server
+      server-cmd-placeholder: "e.g. python3 or node"
+      server-args: Server Arguments
+      server-args-description: "Arguments passed to the server command, space-separated"
+      server-args-placeholder: "e.g. /path/to/server.py or server.js --port 3000"
+      note: The MCP server is launched by the Electron desktop application. It is not available in the browser version.
+      configured: MCP server is configured
     explained:
       chat: Text generation model providers. e.g. OpenRouter, OpenAI, Ollama.
       Speech: Speech (text-to-speech) model providers. e.g. ElevenLabs, Azure Speech.
@@ -782,6 +919,24 @@ pages:
   scene:
     description: Configure the environment where the character lives
     title: Scene
+    model-link-hint: "To change the character model, go to the"
+    model-link-text: Models page
+    sections:
+      live2d:
+        title: Live2D Settings
+        idle-animation: Idle Animation
+        idle-animation-description: Play a subtle idle animation loop when AIRI is not speaking
+        auto-blink: Auto Blink
+        auto-blink-description: Automatically blink the character's eyes at random intervals
+        force-auto-blink: Force Auto Blink
+        force-auto-blink-description: Force auto blink even when the Live2D model has its own blink animation
+        disable-focus: Disable Mouse Focus
+        disable-focus-description: Prevent the character's eyes from following the mouse cursor
+        shadow: Drop Shadow
+        shadow-description: Render a soft drop-shadow beneath the character
+        max-fps: Max Frame Rate
+        max-fps-description: Cap the Live2D renderer frame rate to reduce CPU/GPU usage
+        max-fps-unlimited: Unlimited
   system:
     color-scheme:
       description: Change the color scheme of the stage.

@@ -4,13 +4,20 @@ import { getBeatSyncState, listenBeatSyncStateChange } from '@proj-airi/stage-sh
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import { useCommandsStore } from '../stores/modules/commands'
 import { useConsciousnessStore } from '../stores/modules/consciousness'
 import { useDiscordStore } from '../stores/modules/discord'
 import { useFactorioStore } from '../stores/modules/gaming-factorio'
 import { useMinecraftStore } from '../stores/modules/gaming-minecraft'
+import { useGoalsStore } from '../stores/modules/goals'
 import { useHearingStore } from '../stores/modules/hearing'
+import { useLongTermMemoryStore } from '../stores/modules/memory-long-term'
+import { useShortTermMemoryStore } from '../stores/modules/memory-short-term'
+import { useSelfLearningStore } from '../stores/modules/self-learning'
 import { useSpeechStore } from '../stores/modules/speech'
 import { useTwitterStore } from '../stores/modules/twitter'
+import { useVisionStore } from '../stores/modules/vision'
+import { useWebSearchStore } from '../stores/modules/web-search'
 
 export interface Module {
   id: string
@@ -35,6 +42,13 @@ export function useModulesList() {
   const twitterStore = useTwitterStore()
   const minecraftStore = useMinecraftStore()
   const factorioStore = useFactorioStore()
+  const commandsStore = useCommandsStore()
+  const shortTermMemoryStore = useShortTermMemoryStore()
+  const longTermMemoryStore = useLongTermMemoryStore()
+  const webSearchStore = useWebSearchStore()
+  const selfLearningStore = useSelfLearningStore()
+  const goalsStore = useGoalsStore()
+  const visionStore = useVisionStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -71,7 +85,7 @@ export function useModulesList() {
       description: t('settings.pages.modules.vision.description'),
       icon: 'i-solar:eye-closed-bold-duotone',
       to: '/settings/modules/vision',
-      configured: false,
+      configured: visionStore.configured,
       category: 'essential',
     },
     {
@@ -80,7 +94,7 @@ export function useModulesList() {
       description: t('settings.pages.modules.memory-short-term.description'),
       icon: 'i-solar:bookmark-bold-duotone',
       to: '/settings/modules/memory-short-term',
-      configured: false,
+      configured: shortTermMemoryStore.configured,
       category: 'essential',
     },
     {
@@ -89,7 +103,7 @@ export function useModulesList() {
       description: t('settings.pages.modules.memory-long-term.description'),
       icon: 'i-solar:book-bookmark-bold-duotone',
       to: '/settings/modules/memory-long-term',
-      configured: false,
+      configured: longTermMemoryStore.configured,
       category: 'essential',
     },
     {
@@ -137,6 +151,42 @@ export function useModulesList() {
       category: 'essential',
     },
     {
+      id: 'goals',
+      name: t('settings.pages.modules.goals.title'),
+      description: t('settings.pages.modules.goals.description'),
+      icon: 'i-solar:target-bold-duotone',
+      to: '/settings/modules/goals',
+      configured: goalsStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'web-search',
+      name: t('settings.pages.modules.web-search.title'),
+      description: t('settings.pages.modules.web-search.description'),
+      icon: 'i-solar:magnifer-bold-duotone',
+      to: '/settings/modules/web-search',
+      configured: webSearchStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'commands',
+      name: t('settings.pages.modules.commands.title'),
+      description: t('settings.pages.modules.commands.description'),
+      icon: 'i-solar:slash-circle-bold-duotone',
+      to: '/settings/modules/commands',
+      configured: commandsStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'self-learning',
+      name: t('settings.pages.modules.self-learning.title'),
+      description: t('settings.pages.modules.self-learning.description'),
+      icon: 'i-solar:atom-bold-duotone',
+      to: '/settings/modules/self-learning',
+      configured: selfLearningStore.configured,
+      category: 'intelligence',
+    },
+    {
       id: 'beat-sync',
       name: t('settings.pages.modules.beat_sync.title'),
       description: t('settings.pages.modules.beat_sync.description'),
@@ -163,6 +213,7 @@ export function useModulesList() {
     essential: t('settings.pages.modules.categories.essential'),
     messaging: t('settings.pages.modules.categories.messaging'),
     gaming: t('settings.pages.modules.categories.gaming'),
+    intelligence: t('settings.pages.modules.categories.intelligence'),
   }))
 
   // TODO(Makito): We can make this a reactive value from a synthetic store.
