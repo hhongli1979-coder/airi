@@ -140,3 +140,51 @@ export const widgetsUpdateEvent = defineEventa<{ id: string, componentProps?: Re
 
 export { electron } from '@proj-airi/electron-eventa'
 export * from '@proj-airi/electron-eventa/electron-updater'
+
+// ── Computer Use ──────────────────────────────────────────────────────────────
+// Contracts for AI-driven desktop automation: screenshot, mouse, keyboard.
+
+export interface ComputerUseScreenshotResult {
+  /** PNG image data encoded as a base64 data URL */
+  dataUrl: string
+  width: number
+  height: number
+}
+
+export interface ComputerUseMousePayload {
+  x: number
+  y: number
+  /** Mouse button to click (default: 'left') */
+  button?: 'left' | 'right' | 'middle'
+  /** Number of clicks (default: 1) */
+  clicks?: number
+}
+
+export interface ComputerUseScrollPayload {
+  x: number
+  y: number
+  /** Positive = scroll down, negative = scroll up */
+  deltaY: number
+}
+
+export const computerUseScreenshot = defineInvokeEventa<ComputerUseScreenshotResult>(
+  'eventa:invoke:computer-use:screenshot',
+)
+export const computerUseMouseMove = defineInvokeEventa<void, { x: number, y: number }>(
+  'eventa:invoke:computer-use:mouse:move',
+)
+export const computerUseMouseClick = defineInvokeEventa<void, ComputerUseMousePayload>(
+  'eventa:invoke:computer-use:mouse:click',
+)
+export const computerUseKeyboardType = defineInvokeEventa<void, { text: string }>(
+  'eventa:invoke:computer-use:keyboard:type',
+)
+export const computerUseKeyboardPress = defineInvokeEventa<void, { keys: string[] }>(
+  'eventa:invoke:computer-use:keyboard:press',
+)
+export const computerUseGetCursorPos = defineInvokeEventa<{ x: number, y: number }>(
+  'eventa:invoke:computer-use:cursor:position',
+)
+export const computerUseGetScreenSize = defineInvokeEventa<{ width: number, height: number }>(
+  'eventa:invoke:computer-use:screen:size',
+)

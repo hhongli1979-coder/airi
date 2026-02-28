@@ -14,6 +14,7 @@ import { useHearingStore } from '../stores/modules/hearing'
 import { useLobsterStore } from '../stores/modules/lobster'
 import { useLongTermMemoryStore } from '../stores/modules/memory-long-term'
 import { useShortTermMemoryStore } from '../stores/modules/memory-short-term'
+import { useRepoReaderStore } from '../stores/modules/repo-reader'
 import { useSelfLearningStore } from '../stores/modules/self-learning'
 import { useSpeechStore } from '../stores/modules/speech'
 import { useTwitterStore } from '../stores/modules/twitter'
@@ -51,6 +52,7 @@ export function useModulesList() {
   const goalsStore = useGoalsStore()
   const visionStore = useVisionStore()
   const lobsterStore = useLobsterStore()
+  const repoReaderStore = useRepoReaderStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -195,6 +197,15 @@ export function useModulesList() {
       icon: 'i-solar:widget-bold-duotone',
       to: '/settings/modules/lobster',
       configured: lobsterStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'repo-reader',
+      name: t('settings.pages.modules.repo-reader.title'),
+      description: t('settings.pages.modules.repo-reader.description'),
+      icon: 'i-solar:code-square-bold-duotone',
+      to: '/settings/modules/repo-reader',
+      configured: repoReaderStore.configured,
       category: 'intelligence',
     },
     {

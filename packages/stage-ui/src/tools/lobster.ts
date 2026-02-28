@@ -34,7 +34,16 @@ export async function lobster() {
       ].join(' '),
       execute: async ({ workflowName, workflowYaml, argsJson }) => {
         // Lobster uses Node.js APIs — gracefully degrade on browser/mobile.
-        if (typeof process === 'undefined' || !process.versions?.node) {
+        // NOTICE: The ESLint rule node/prefer-global/process fires here; we
+        // use a try/catch dynamic import instead of the global to satisfy it.
+        let nodeProcess: typeof import('node:process') | null = null
+        try {
+          nodeProcess = await import('node:process')
+        }
+        catch {
+          // not in Node.js (browser / mobile)
+        }
+        if (!nodeProcess?.versions?.node) {
           return 'Lobster workflow execution is only supported on the Electron desktop app or a Node.js server. This environment does not provide Node.js process access.'
         }
 
@@ -147,7 +156,14 @@ export async function lobster() {
         'Returns the continued workflow output.',
       ].join(' '),
       execute: async ({ resumeToken, approved }) => {
-        if (typeof process === 'undefined' || !process.versions?.node) {
+        let nodeProcess: typeof import('node:process') | null = null
+        try {
+          nodeProcess = await import('node:process')
+        }
+        catch {
+          // not in Node.js
+        }
+        if (!nodeProcess?.versions?.node) {
           return 'Lobster is only supported in Electron desktop or Node.js environments.'
         }
 

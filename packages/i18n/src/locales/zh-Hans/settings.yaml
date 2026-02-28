@@ -420,6 +420,39 @@ pages:
     mcp-server:
       description: 连接和管理 MCP 服务器及工具
       title: MCP 服务器
+    lobster:
+      title: Lobster 工作流
+      description: 运行确定性、带审批门控的自动化流水线
+      enable: 启用 Lobster 工作流
+      enable-description: 为 AIRI 添加 lobster_run_workflow 和 lobster_resume_workflow 工具，用于执行结构化自动化任务
+      note: Lobster 通过 Node.js 执行 Shell 命令，在 Electron 桌面端完全可用。在网页/移动端工具仍然注册，但命令执行功能不可用。
+      workflows-title: 已保存的工作流
+      workflows-description: 定义 YAML 或 JSON 工作流，AIRI 可通过名称调用
+      workflows-empty: 暂无工作流，点击"添加工作流"创建一个。
+      add-workflow: 添加工作流
+      edit: 编辑
+      delete: 删除
+      workflow-name: 工作流名称
+      workflow-name-placeholder: '例如：pr-monitor、inbox-triage'
+      workflow-description: 描述（可选）
+      workflow-description-placeholder: 这个工作流做什么？
+      workflow-definition: 工作流定义（YAML 或 JSON）
+      workflow-definition-description: 'steps 数组，每个步骤需要 id 和 command 字段。用 ${key} 传入参数，用 $step.json 引用步骤输出。'
+      workflow-definition-placeholder: "name: my-workflow\nsteps:\n  - id: run\n    command: echo hello"
+      cancel: 取消
+      save: 保存
+      create: 创建
+      configured: Lobster 已配置，随时可用！
+    repo-reader:
+      title: 代码库阅读
+      description: 读取 GitHub 代码库的文件、目录和搜索代码
+      enable: 启用代码库阅读
+      enable-description: 为 AIRI 添加 repo_read_file、repo_list_files、repo_search_code、repo_get_info 工具
+      github-token: GitHub 访问令牌（可选）
+      github-token-description: 用于提高 API 频率限制或访问私有代码库，在 github.com/settings/tokens 创建
+      github-token-placeholder: ghp_...
+      note: 公开代码库无需令牌（每小时 60 次请求）。添加令牌后可获得更高频率限制（每小时 5000 次）并可访问私有代码库。
+      configured: 代码库阅读已配置！
   providers:
     explained:
       chat: 文本生成模型服务来源，例如 OpenRouter, OpenAI, Ollama

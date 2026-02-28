@@ -480,6 +480,16 @@ pages:
       save: Save
       create: Create
       configured: Lobster is configured and ready!
+    repo-reader:
+      title: Repo Reader
+      description: Read files, browse directories, and search code in any GitHub repository
+      enable: Enable Repo Reader
+      enable-description: Adds repo_read_file, repo_list_files, repo_search_code, and repo_get_info tools AIRI can call during conversations
+      github-token: GitHub Token (optional)
+      github-token-description: Increases API rate limit from 60 to 5000 req/hour and enables access to private repositories. Create at github.com/settings/tokens
+      github-token-placeholder: ghp_...
+      note: "Public repositories work without a token (60 req/hour). Add a token for higher rate limits and private repo access."
+      configured: Repo Reader is configured!
     categories:
       essential: Essential
       messaging: Messaging

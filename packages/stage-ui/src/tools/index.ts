@@ -1,5 +1,6 @@
 export * from './debug'
 export * from './lobster'
 export * from './mcp'
+export * from './repo-reader'
 export * from './web-reader'
 export * from './web-search'
