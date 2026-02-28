@@ -8,13 +8,20 @@ import { useChatSessionStore } from '../stores/chat/session-store'
 import { useDisplayModelsStore } from '../stores/display-models'
 import { useMcpStore } from '../stores/mcp'
 import { useAiriCardStore } from '../stores/modules/airi-card'
+import { useCommandsStore } from '../stores/modules/commands'
 import { useConsciousnessStore } from '../stores/modules/consciousness'
 import { useDiscordStore } from '../stores/modules/discord'
 import { useFactorioStore } from '../stores/modules/gaming-factorio'
 import { useMinecraftStore } from '../stores/modules/gaming-minecraft'
+import { useGoalsStore } from '../stores/modules/goals'
 import { useHearingStore } from '../stores/modules/hearing'
+import { useLongTermMemoryStore } from '../stores/modules/memory-long-term'
+import { useShortTermMemoryStore } from '../stores/modules/memory-short-term'
+import { useSelfLearningStore } from '../stores/modules/self-learning'
 import { useSpeechStore } from '../stores/modules/speech'
 import { useTwitterStore } from '../stores/modules/twitter'
+import { useVisionStore } from '../stores/modules/vision'
+import { useWebSearchStore } from '../stores/modules/web-search'
 import { useOnboardingStore } from '../stores/onboarding'
 import { useProvidersStore } from '../stores/providers'
 import { useSettings, useSettingsAudioDevice } from '../stores/settings'
@@ -34,6 +41,13 @@ export function useDataMaintenance() {
   const discordStore = useDiscordStore()
   const factorioStore = useFactorioStore()
   const minecraftStore = useMinecraftStore()
+  const commandsStore = useCommandsStore()
+  const goalsStore = useGoalsStore()
+  const shortTermMemoryStore = useShortTermMemoryStore()
+  const longTermMemoryStore = useLongTermMemoryStore()
+  const selfLearningStore = useSelfLearningStore()
+  const webSearchStore = useWebSearchStore()
+  const visionStore = useVisionStore()
   const mcpStore = useMcpStore()
   const onboardingStore = useOnboardingStore()
   const airiCardStore = useAiriCardStore()
@@ -56,6 +70,13 @@ export function useDataMaintenance() {
     discordStore.resetState()
     factorioStore.resetState()
     minecraftStore.resetState()
+    commandsStore.resetState()
+    goalsStore.resetState()
+    shortTermMemoryStore.resetState()
+    longTermMemoryStore.resetState()
+    selfLearningStore.resetState()
+    webSearchStore.resetState()
+    visionStore.resetState()
   }
 
   function deleteAllChatSessions() {

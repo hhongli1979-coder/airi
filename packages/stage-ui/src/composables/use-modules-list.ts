@@ -16,6 +16,7 @@ import { useShortTermMemoryStore } from '../stores/modules/memory-short-term'
 import { useSelfLearningStore } from '../stores/modules/self-learning'
 import { useSpeechStore } from '../stores/modules/speech'
 import { useTwitterStore } from '../stores/modules/twitter'
+import { useVisionStore } from '../stores/modules/vision'
 import { useWebSearchStore } from '../stores/modules/web-search'
 
 export interface Module {
@@ -47,6 +48,7 @@ export function useModulesList() {
   const webSearchStore = useWebSearchStore()
   const selfLearningStore = useSelfLearningStore()
   const goalsStore = useGoalsStore()
+  const visionStore = useVisionStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -83,7 +85,7 @@ export function useModulesList() {
       description: t('settings.pages.modules.vision.description'),
       icon: 'i-solar:eye-closed-bold-duotone',
       to: '/settings/modules/vision',
-      configured: false,
+      configured: visionStore.configured,
       category: 'essential',
     },
     {
