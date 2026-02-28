@@ -4,6 +4,7 @@ import { getBeatSyncState, listenBeatSyncStateChange } from '@proj-airi/stage-sh
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import { useAcpxStore } from '../stores/modules/acpx'
 import { useBrowserAutoStore } from '../stores/modules/browser-auto'
 import { useCommandsStore } from '../stores/modules/commands'
 import { useComputerUseStore } from '../stores/modules/computer-use'
@@ -57,6 +58,7 @@ export function useModulesList() {
   const repoReaderStore = useRepoReaderStore()
   const computerUseStore = useComputerUseStore()
   const browserAutoStore = useBrowserAutoStore()
+  const acpxStore = useAcpxStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -228,6 +230,15 @@ export function useModulesList() {
       icon: 'i-solar:code-square-bold-duotone',
       to: '/settings/modules/repo-reader',
       configured: repoReaderStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'acpx',
+      name: t('settings.pages.modules.acpx.title'),
+      description: t('settings.pages.modules.acpx.description'),
+      icon: 'i-solar:programming-bold-duotone',
+      to: '/settings/modules/acpx',
+      configured: acpxStore.configured,
       category: 'intelligence',
     },
     {

@@ -470,6 +470,30 @@ pages:
       note: '适用于普通网站。遇到验证码、短信验证或人脸识别时，将暂停并请你手动完成。银行等金融账户依法需要人工 KYC 身份核验，无法自动化。'
       tools-title: 可用工具
       configured: 浏览器自动化已启用！
+    acpx:
+      title: 代码智能体
+      description: AIRI 将编程任务委托给你机器上的 OpenCode、Codex、Claude Code 或 Gemini
+      enable: 启用代码智能体
+      enable-description: 为 AIRI 添加 5 个工具，让她可以帮你写代码、修 Bug、跑测试等
+      note: "代码智能体通过 acpx 使用 Agent Client Protocol 与编程智能体（OpenCode/Codex/Claude Code/Gemini）通信。编程智能体可以读写你的项目文件并执行终端命令。"
+      default-agent: 默认编程智能体
+      default-agent-description: AIRI 写代码时默认使用哪个 AI 编程智能体
+      default-cwd: 默认项目目录
+      default-cwd-description: 编程智能体工作的项目路径（绝对路径）。留空则使用调用时的当前目录。
+      default-cwd-placeholder: "/home/我的用户名/我的项目"
+      permission-mode: 权限模式
+      permission-mode-description: 编程智能体如何处理文件和终端操作权限
+      perm-approve-reads: 自动批准读取操作，写操作需要确认（推荐）
+      perm-approve-all: 全部自动批准——完全自主模式
+      perm-deny-all: 拒绝所有工具权限——只读 / 规划模式
+      tools-title: 可用工具
+      prereqs-title: 前置要求（安装你想使用的编程智能体）：
+      prereq-acpx: "acpx 已内置，无需手动安装（使用 npx acpx@latest）"
+      prereq-opencode: "OpenCode: npx opencode-ai  或  brew install opencode-ai/tap/opencode"
+      prereq-codex: "Codex: https://codex.openai.com  |  Claude Code: https://claude.ai/code  |  Gemini CLI"
+      recent-sessions: 最近的会话
+      clear-sessions: 清除
+      configured: 代码智能体已就绪！
   providers:
     explained:
       chat: 文本生成模型服务来源，例如 OpenRouter, OpenAI, Ollama

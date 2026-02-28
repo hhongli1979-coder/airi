@@ -507,6 +507,30 @@ pages:
       note: "Works on regular websites. Sites with CAPTCHA, SMS verification, or biometric checks will pause and ask you to complete those steps manually. Financial/bank accounts require human KYC verification by law."
       tools-title: Available Tools
       configured: Browser Automation is enabled!
+    acpx:
+      title: Code Agent
+      description: AIRI delegates coding tasks to OpenCode, Codex, Claude Code, or Gemini on your machine
+      enable: Enable Code Agent
+      enable-description: Adds 5 tools so AIRI can write code, fix bugs, run tests, and more using a dedicated AI coding agent
+      note: "Code Agent uses acpx to talk to a coding agent (OpenCode, Codex, Claude Code, Gemini) over the Agent Client Protocol. The coding agent has full access to your project files and terminal — it can write, edit, run, and test code for you."
+      default-agent: Default Coding Agent
+      default-agent-description: Which AI coding agent AIRI should use when you ask her to write code
+      default-cwd: Default Project Directory
+      default-cwd-description: Absolute path to the project AIRI should work on by default. Leave empty to use the current directory at call time.
+      default-cwd-placeholder: "/home/me/my-project"
+      permission-mode: Permission Mode
+      permission-mode-description: How the coding agent handles file and terminal access
+      perm-approve-reads: "Auto-approve reads, prompt for writes (recommended)"
+      perm-approve-all: "Auto-approve everything — fully autonomous"
+      perm-deny-all: "Deny all tool access — read-only / planning mode"
+      tools-title: Available Tools
+      prereqs-title: "Prerequisites (install the agent you want to use):"
+      prereq-acpx: "acpx is bundled — no install needed (uses npx acpx@latest)"
+      prereq-opencode: "OpenCode: npx opencode-ai  or  brew install opencode-ai/tap/opencode"
+      prereq-codex: "Codex: https://codex.openai.com  |  Claude Code: https://claude.ai/code  |  Gemini: gemini CLI"
+      recent-sessions: Recent Sessions
+      clear-sessions: Clear
+      configured: Code Agent is ready!
     categories:
       essential: Essential
       messaging: Messaging
