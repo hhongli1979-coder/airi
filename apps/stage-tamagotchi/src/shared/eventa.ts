@@ -140,3 +140,98 @@ export const widgetsUpdateEvent = defineEventa<{ id: string, componentProps?: Re
 
 export { electron } from '@proj-airi/electron-eventa'
 export * from '@proj-airi/electron-eventa/electron-updater'
+
+// ── Computer Use ──────────────────────────────────────────────────────────────
+// Contracts for AI-driven desktop automation: screenshot, mouse, keyboard.
+
+export interface ComputerUseScreenshotResult {
+  /** PNG image data encoded as a base64 data URL */
+  dataUrl: string
+  width: number
+  height: number
+}
+
+export interface ComputerUseMousePayload {
+  x: number
+  y: number
+  /** Mouse button to click (default: 'left') */
+  button?: 'left' | 'right' | 'middle'
+  /** Number of clicks (default: 1) */
+  clicks?: number
+}
+
+export interface ComputerUseScrollPayload {
+  x: number
+  y: number
+  /** Positive = scroll down, negative = scroll up */
+  deltaY: number
+}
+
+export const computerUseScreenshot = defineInvokeEventa<ComputerUseScreenshotResult>(
+  'eventa:invoke:computer-use:screenshot',
+)
+export const computerUseMouseMove = defineInvokeEventa<void, { x: number, y: number }>(
+  'eventa:invoke:computer-use:mouse:move',
+)
+export const computerUseMouseClick = defineInvokeEventa<void, ComputerUseMousePayload>(
+  'eventa:invoke:computer-use:mouse:click',
+)
+export const computerUseKeyboardType = defineInvokeEventa<void, { text: string }>(
+  'eventa:invoke:computer-use:keyboard:type',
+)
+export const computerUseKeyboardPress = defineInvokeEventa<void, { keys: string[] }>(
+  'eventa:invoke:computer-use:keyboard:press',
+)
+export const computerUseGetCursorPos = defineInvokeEventa<{ x: number, y: number }>(
+  'eventa:invoke:computer-use:cursor:position',
+)
+export const computerUseGetScreenSize = defineInvokeEventa<{ width: number, height: number }>(
+  'eventa:invoke:computer-use:screen:size',
+)
+
+// ── Browser Automation ───────────────────────────────────────────────────────
+// Contracts for AI-driven web automation: navigate, fill, click, read pages.
+// Powered by a headless Electron BrowserWindow — no Puppeteer/Playwright needed.
+
+export interface BrowserAutoElement {
+  tag: string
+  id?: string
+  name?: string
+  type?: string
+  placeholder?: string
+  value?: string
+  text?: string
+  href?: string
+  selector: string
+}
+
+export interface BrowserAutoPageInfo {
+  url: string
+  title: string
+  readyState: string
+}
+
+export const browserAutoNavigate = defineInvokeEventa<BrowserAutoPageInfo, { url: string, waitMs?: number }>(
+  'eventa:invoke:browser-auto:navigate',
+)
+export const browserAutoGetPageInfo = defineInvokeEventa<BrowserAutoPageInfo>(
+  'eventa:invoke:browser-auto:page-info',
+)
+export const browserAutoGetHtml = defineInvokeEventa<{ html: string, url: string }>(
+  'eventa:invoke:browser-auto:get-html',
+)
+export const browserAutoFindElements = defineInvokeEventa<BrowserAutoElement[], { selector: string, limit?: number }>(
+  'eventa:invoke:browser-auto:find-elements',
+)
+export const browserAutoFillInput = defineInvokeEventa<{ success: boolean }, { selector: string, value: string }>(
+  'eventa:invoke:browser-auto:fill-input',
+)
+export const browserAutoClick = defineInvokeEventa<{ success: boolean }, { selector: string }>(
+  'eventa:invoke:browser-auto:click',
+)
+export const browserAutoEval = defineInvokeEventa<{ result: unknown }, { js: string }>(
+  'eventa:invoke:browser-auto:eval',
+)
+export const browserAutoClose = defineInvokeEventa<void>(
+  'eventa:invoke:browser-auto:close',
+)

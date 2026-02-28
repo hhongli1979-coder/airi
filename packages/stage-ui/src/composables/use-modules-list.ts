@@ -4,15 +4,20 @@ import { getBeatSyncState, listenBeatSyncStateChange } from '@proj-airi/stage-sh
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import { useAcpxStore } from '../stores/modules/acpx'
+import { useBrowserAutoStore } from '../stores/modules/browser-auto'
 import { useCommandsStore } from '../stores/modules/commands'
+import { useComputerUseStore } from '../stores/modules/computer-use'
 import { useConsciousnessStore } from '../stores/modules/consciousness'
 import { useDiscordStore } from '../stores/modules/discord'
 import { useFactorioStore } from '../stores/modules/gaming-factorio'
 import { useMinecraftStore } from '../stores/modules/gaming-minecraft'
 import { useGoalsStore } from '../stores/modules/goals'
 import { useHearingStore } from '../stores/modules/hearing'
+import { useLobsterStore } from '../stores/modules/lobster'
 import { useLongTermMemoryStore } from '../stores/modules/memory-long-term'
 import { useShortTermMemoryStore } from '../stores/modules/memory-short-term'
+import { useRepoReaderStore } from '../stores/modules/repo-reader'
 import { useSelfLearningStore } from '../stores/modules/self-learning'
 import { useSpeechStore } from '../stores/modules/speech'
 import { useTwitterStore } from '../stores/modules/twitter'
@@ -49,6 +54,11 @@ export function useModulesList() {
   const selfLearningStore = useSelfLearningStore()
   const goalsStore = useGoalsStore()
   const visionStore = useVisionStore()
+  const lobsterStore = useLobsterStore()
+  const repoReaderStore = useRepoReaderStore()
+  const computerUseStore = useComputerUseStore()
+  const browserAutoStore = useBrowserAutoStore()
+  const acpxStore = useAcpxStore()
   const beatSyncState = ref<BeatSyncDetectorState>()
 
   const modulesList = computed<Module[]>(() => [
@@ -184,6 +194,51 @@ export function useModulesList() {
       icon: 'i-solar:atom-bold-duotone',
       to: '/settings/modules/self-learning',
       configured: selfLearningStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'lobster',
+      name: t('settings.pages.modules.lobster.title'),
+      description: t('settings.pages.modules.lobster.description'),
+      icon: 'i-solar:widget-bold-duotone',
+      to: '/settings/modules/lobster',
+      configured: lobsterStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'computer-use',
+      name: t('settings.pages.modules.computer-use.title'),
+      description: t('settings.pages.modules.computer-use.description'),
+      icon: 'i-solar:monitor-smartphone-bold-duotone',
+      to: '/settings/modules/computer-use',
+      configured: computerUseStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'browser-auto',
+      name: t('settings.pages.modules.browser-auto.title'),
+      description: t('settings.pages.modules.browser-auto.description'),
+      icon: 'i-solar:global-bold-duotone',
+      to: '/settings/modules/browser-auto',
+      configured: browserAutoStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'repo-reader',
+      name: t('settings.pages.modules.repo-reader.title'),
+      description: t('settings.pages.modules.repo-reader.description'),
+      icon: 'i-solar:code-square-bold-duotone',
+      to: '/settings/modules/repo-reader',
+      configured: repoReaderStore.configured,
+      category: 'intelligence',
+    },
+    {
+      id: 'acpx',
+      name: t('settings.pages.modules.acpx.title'),
+      description: t('settings.pages.modules.acpx.description'),
+      icon: 'i-solar:programming-bold-duotone',
+      to: '/settings/modules/acpx',
+      configured: acpxStore.configured,
       category: 'intelligence',
     },
     {

@@ -120,6 +120,10 @@
     - [x] 纯浏览器内数据库支持（DuckDB WASM | `pglite`）
     - [ ] Alaya 记忆层（施工中）
   - [ ] 纯浏览器的本地推理（基于 WebGPU）
+  - [x] **代码智能体** — 帮你写代码、修 Bug、跑测试，支持 [OpenCode](https://opencode.ai)、Codex、Claude Code、Gemini（基于 [acpx](https://github.com/openclaw/acpx) / Agent Client Protocol）_（桌面版）_
+  - [x] **电脑操控** — 截图、控制鼠标键盘 _（桌面版）_
+  - [x] **浏览器自动化** — 自动打开网页、填写表单 _（桌面版）_
+  - [x] **代码库阅读** — 读取任意 GitHub 仓库的文件并搜索代码 _（全平台）_
 - [x] 耳朵
   - [x] 浏览器音频输入
   - [x] [Discord](https://discord.com) 音频输入
@@ -170,6 +174,57 @@ pnpm dev:tamagotchi
 ```shell
 nix run github:moeru-ai/airi
 ```
+
+#### 桌面版专属模块
+
+桌面版（Stage Tamagotchi）解锁了多个强大模块。启动应用后在 **设置 → 模块** 中开启：
+
+| 模块 | 功能 | 前置要求 |
+|---|---|---|
+| **代码智能体** | AIRI 帮你写代码、修 Bug、跑测试（OpenCode / Codex / Claude Code / Gemini） | 安装至少一个编程智能体（见下方） |
+| **电脑操控** | AIRI 截图并控制鼠标和键盘 | macOS: `cliclick` · Linux: `xdotool` · Windows: 内置 |
+| **浏览器自动化** | AIRI 自动打开网站并填写表单 | 无需额外安装，Electron 内置 |
+| **代码库阅读** | AIRI 读取任意 GitHub 仓库文件并搜索代码 | 可选：GitHub Token（用于私有仓库） |
+
+##### 配置代码智能体（acpx）
+
+AIRI 通过 [acpx](https://github.com/openclaw/acpx) 经由 [Agent Client Protocol](https://agentclientprotocol.com) 与编程智能体通信。`acpx` 本身已内置，只需安装你想用的编程智能体：
+
+```shell
+# 选项 A — OpenCode（推荐，跨平台）
+npm install -g opencode-ai
+
+# 选项 B — Codex（OpenAI）
+# 从 https://codex.openai.com 安装
+
+# 选项 C — Claude Code（Anthropic）
+# 从 https://claude.ai/code 安装
+
+# 选项 D — Gemini CLI（Google）
+npm install -g @google/gemini-cli
+```
+
+然后在 AIRI 桌面端：
+1. 打开 **设置 → 模块 → 代码智能体**
+2. 开启 **启用代码智能体**
+3. 选择你喜欢的智能体，设置默认项目目录
+4. 跟 AIRI 说：*"帮我修复 src/auth.ts 里的 TypeScript 错误"*
+
+##### 配置电脑操控（Computer Use）
+
+```shell
+# macOS — 安装 cliclick 用于鼠标/键盘控制
+brew install cliclick
+
+# Linux — 安装 xdotool
+sudo apt install xdotool      # Debian/Ubuntu
+sudo pacman -S xdotool        # Arch
+sudo dnf install xdotool      # Fedora
+
+# Windows — 无需额外安装（使用 PowerShell SendKeys）
+```
+
+然后在桌面端开启 **设置 → 模块 → 电脑操控**。
 
 ### 文档站
 

@@ -120,6 +120,10 @@ Capable of
     - [x] Pure in-browser database support (DuckDB WASM | `pglite`)
     - [ ] Memory Alaya (WIP)
   - [ ] Pure in-browser local (WebGPU) inference
+  - [x] **Code Agent** — write code, fix bugs, run tests via [OpenCode](https://opencode.ai), Codex, Claude Code, or Gemini (powered by [acpx](https://github.com/openclaw/acpx) / Agent Client Protocol) _(Desktop)_
+  - [x] **Computer Use** — screenshot, mouse, keyboard control of your desktop _(Desktop)_
+  - [x] **Browser Automation** — navigate websites and fill forms automatically _(Desktop)_
+  - [x] **Repo Reader** — read any GitHub repository's files and search code _(All platforms)_
 - [x] Ears
   - [x] Audio input from browser
   - [x] Audio input from [Discord](https://discord.com)
@@ -172,6 +176,57 @@ A Nix package for Tamagotchi is included. To run airi with Nix, first make sure 
 ```shell
 nix run github:moeru-ai/airi
 ```
+
+#### New modules available on Desktop
+
+The desktop version (Stage Tamagotchi) unlocks several powerful modules. Enable them in **Settings → Modules** after starting the app:
+
+| Module | What it does | Requires |
+|---|---|---|
+| **Code Agent** | AIRI writes code, fixes bugs, runs tests using OpenCode / Codex / Claude Code / Gemini | One of the coding agents installed (see below) |
+| **Computer Use** | AIRI takes screenshots and controls your mouse & keyboard | macOS: `cliclick` · Linux: `xdotool` · Windows: built-in |
+| **Browser Automation** | AIRI opens websites and fills in forms automatically | Nothing extra — built into Electron |
+| **Repo Reader** | AIRI reads any GitHub repository's files and searches code | Optional: GitHub token for private repos |
+
+##### Setting up Code Agent (acpx)
+
+AIRI uses [acpx](https://github.com/openclaw/acpx) to talk to coding agents over the [Agent Client Protocol](https://agentclientprotocol.com). `acpx` itself is bundled — you only need to install whichever coding agent you want to use:
+
+```shell
+# Option A — OpenCode (recommended, cross-platform)
+npm install -g opencode-ai
+
+# Option B — Codex (OpenAI)
+# Install from https://codex.openai.com
+
+# Option C — Claude Code (Anthropic)
+# Install from https://claude.ai/code
+
+# Option D — Gemini CLI (Google)
+npm install -g @google/gemini-cli
+```
+
+Then in AIRI desktop app:
+1. Open **Settings → Modules → Code Agent**
+2. Toggle **Enable Code Agent**
+3. Pick your preferred agent and set the default project directory
+4. Ask AIRI: *"帮我修复 src/auth.ts 里的 TypeScript 错误"* / *"Fix the TypeScript errors in src/auth.ts"*
+
+##### Setting up Computer Use
+
+```shell
+# macOS — install cliclick for mouse/keyboard control
+brew install cliclick
+
+# Linux — install xdotool
+sudo apt install xdotool      # Debian/Ubuntu
+sudo pacman -S xdotool        # Arch
+sudo dnf install xdotool      # Fedora
+
+# Windows — no extra install needed (uses PowerShell SendKeys)
+```
+
+Then enable **Settings → Modules → Computer Use** in the desktop app.
 
 ### Stage Pocket (Mobile Version)
 

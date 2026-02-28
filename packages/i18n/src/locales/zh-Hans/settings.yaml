@@ -420,6 +420,80 @@ pages:
     mcp-server:
       description: 连接和管理 MCP 服务器及工具
       title: MCP 服务器
+    lobster:
+      title: Lobster 工作流
+      description: 运行确定性、带审批门控的自动化流水线
+      enable: 启用 Lobster 工作流
+      enable-description: 为 AIRI 添加 lobster_run_workflow 和 lobster_resume_workflow 工具，用于执行结构化自动化任务
+      note: Lobster 通过 Node.js 执行 Shell 命令，在 Electron 桌面端完全可用。在网页/移动端工具仍然注册，但命令执行功能不可用。
+      workflows-title: 已保存的工作流
+      workflows-description: 定义 YAML 或 JSON 工作流，AIRI 可通过名称调用
+      workflows-empty: 暂无工作流，点击"添加工作流"创建一个。
+      add-workflow: 添加工作流
+      edit: 编辑
+      delete: 删除
+      workflow-name: 工作流名称
+      workflow-name-placeholder: '例如：pr-monitor、inbox-triage'
+      workflow-description: 描述（可选）
+      workflow-description-placeholder: 这个工作流做什么？
+      workflow-definition: 工作流定义（YAML 或 JSON）
+      workflow-definition-description: 'steps 数组，每个步骤需要 id 和 command 字段。用 ${key} 传入参数，用 $step.json 引用步骤输出。'
+      workflow-definition-placeholder: "name: my-workflow\nsteps:\n  - id: run\n    command: echo hello"
+      cancel: 取消
+      save: 保存
+      create: 创建
+      create-disabled-hint: 工作流名称和定义不能为空
+      configured: Lobster 已配置，随时可用！
+    repo-reader:
+      title: 代码库阅读
+      description: 读取 GitHub 代码库的文件、目录和搜索代码
+      enable: 启用代码库阅读
+      enable-description: 为 AIRI 添加 repo_read_file、repo_list_files、repo_search_code、repo_get_info 工具
+      github-token: GitHub 访问令牌（可选）
+      github-token-description: 用于提高 API 频率限制或访问私有代码库，在 github.com/settings/tokens 创建
+      github-token-placeholder: ghp_...
+      note: 公开代码库无需令牌（每小时 60 次请求）。添加令牌后可获得更高频率限制（每小时 5000 次）并可访问私有代码库。
+      configured: 代码库阅读已配置！
+    computer-use:
+      title: 电脑操控
+      description: 让 AIRI 看到并控制桌面——截图、鼠标、键盘
+      enable: 启用电脑操控
+      enable-description: 为 AIRI 添加 7 个工具：截图、鼠标移动/点击、键盘输入/快捷键、屏幕尺寸、光标位置
+      note: '需要 Electron 桌面端。鼠标/键盘自动化使用系统工具：cliclick（macOS）、xdotool（Linux）或 PowerShell（Windows）。截图使用 Electron 内置的屏幕捕获。'
+      tools-title: 可用工具
+      configured: 电脑操控已启用！
+    browser-auto:
+      title: 浏览器自动化
+      description: AI 在内置浏览器中填写网页表单、导航页面、点击按钮
+      enable: 启用浏览器自动化
+      enable-description: '为 AIRI 提供一个可控制的浏览器：访问网址、读取页面 HTML、填写输入框、点击按钮。非常适合在普通网站上自动填写注册表单。'
+      note: '适用于普通网站。遇到验证码、短信验证或人脸识别时，将暂停并请你手动完成。银行等金融账户依法需要人工 KYC 身份核验，无法自动化。'
+      tools-title: 可用工具
+      configured: 浏览器自动化已启用！
+    acpx:
+      title: 代码智能体
+      description: AIRI 将编程任务委托给你机器上的 OpenCode、Codex、Claude Code 或 Gemini
+      enable: 启用代码智能体
+      enable-description: 为 AIRI 添加 5 个工具，让她可以帮你写代码、修 Bug、跑测试等
+      note: "代码智能体通过 acpx 使用 Agent Client Protocol 与编程智能体（OpenCode/Codex/Claude Code/Gemini）通信。编程智能体可以读写你的项目文件并执行终端命令。"
+      default-agent: 默认编程智能体
+      default-agent-description: AIRI 写代码时默认使用哪个 AI 编程智能体
+      default-cwd: 默认项目目录
+      default-cwd-description: 编程智能体工作的项目路径（绝对路径）。留空则使用调用时的当前目录。
+      default-cwd-placeholder: "/home/我的用户名/我的项目"
+      permission-mode: 权限模式
+      permission-mode-description: 编程智能体如何处理文件和终端操作权限
+      perm-approve-reads: 自动批准读取操作，写操作需要确认（推荐）
+      perm-approve-all: 全部自动批准——完全自主模式
+      perm-deny-all: 拒绝所有工具权限——只读 / 规划模式
+      tools-title: 可用工具
+      prereqs-title: 前置要求（安装你想使用的编程智能体）：
+      prereq-acpx: "acpx 已内置，无需手动安装（使用 npx acpx@latest）"
+      prereq-opencode: "OpenCode: npx opencode-ai  或  brew install opencode-ai/tap/opencode"
+      prereq-codex: "Codex: https://codex.openai.com  |  Claude Code: https://claude.ai/code  |  Gemini CLI"
+      recent-sessions: 最近的会话
+      clear-sessions: 清除
+      configured: 代码智能体已就绪！
   providers:
     explained:
       chat: 文本生成模型服务来源，例如 OpenRouter, OpenAI, Ollama

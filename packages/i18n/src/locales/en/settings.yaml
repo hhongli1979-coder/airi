@@ -457,6 +457,80 @@ pages:
       error-no-search: Please configure Web Search first
       error-no-topics: Please add at least one learning topic
       configured: Self-learning is active!
+    lobster:
+      title: Lobster Workflows
+      description: Run deterministic, typed automation pipelines with approval gates
+      enable: Enable Lobster Workflows
+      enable-description: Adds lobster_run_workflow and lobster_resume_workflow tools AIRI can call to execute structured automation
+      note: Lobster executes shell commands and requires Node.js. It is fully functional in the Electron desktop app. On web/mobile, tools are available but command execution is disabled.
+      workflows-title: Saved Workflows
+      workflows-description: Define YAML or JSON workflows AIRI can run by name
+      workflows-empty: No workflows saved yet. Click "Add Workflow" to create one.
+      add-workflow: Add Workflow
+      edit: Edit
+      delete: Delete
+      workflow-name: Workflow Name
+      workflow-name-placeholder: "e.g. pr-monitor, inbox-triage"
+      workflow-description: Description (optional)
+      workflow-description-placeholder: "What does this workflow do?"
+      workflow-definition: Workflow Definition (YAML or JSON)
+      workflow-definition-description: "steps: each step needs id and command fields. Use ${key} for args, $step.json for step output references."
+      workflow-definition-placeholder: "name: my-workflow\nsteps:\n  - id: run\n    command: echo hello"
+      cancel: Cancel
+      save: Save
+      create: Create
+      create-disabled-hint: Workflow name and definition are required
+      configured: Lobster is configured and ready!
+    repo-reader:
+      title: Repo Reader
+      description: Read files, browse directories, and search code in any GitHub repository
+      enable: Enable Repo Reader
+      enable-description: Adds repo_read_file, repo_list_files, repo_search_code, and repo_get_info tools AIRI can call during conversations
+      github-token: GitHub Token (optional)
+      github-token-description: Increases API rate limit from 60 to 5000 req/hour and enables access to private repositories. Create at github.com/settings/tokens
+      github-token-placeholder: ghp_...
+      note: "Public repositories work without a token (60 req/hour). Add a token for higher rate limits and private repo access."
+      configured: Repo Reader is configured!
+    computer-use:
+      title: Computer Use
+      description: Let AIRI see and control the desktop — screenshot, mouse, keyboard
+      enable: Enable Computer Use
+      enable-description: Gives AIRI 7 tools to observe and interact with the desktop (screenshot, mouse move/click, keyboard type/press, screen size, cursor position)
+      note: "Requires the Electron desktop app. Mouse/keyboard automation uses platform tools: cliclick (macOS), xdotool (Linux), or PowerShell (Windows). Screenshot uses Electron's built-in screen capture."
+      tools-title: Available Tools
+      configured: Computer Use is enabled!
+    browser-auto:
+      title: Browser Automation
+      description: AI fills web forms, navigates pages, and clicks buttons in a built-in browser
+      enable: Enable Browser Automation
+      enable-description: "Gives AIRI a browser it can control: navigate URLs, read page HTML, fill inputs, click buttons. Great for filling registration forms on regular websites."
+      note: "Works on regular websites. Sites with CAPTCHA, SMS verification, or biometric checks will pause and ask you to complete those steps manually. Financial/bank accounts require human KYC verification by law."
+      tools-title: Available Tools
+      configured: Browser Automation is enabled!
+    acpx:
+      title: Code Agent
+      description: AIRI delegates coding tasks to OpenCode, Codex, Claude Code, or Gemini on your machine
+      enable: Enable Code Agent
+      enable-description: Adds 5 tools so AIRI can write code, fix bugs, run tests, and more using a dedicated AI coding agent
+      note: "Code Agent uses acpx to talk to a coding agent (OpenCode, Codex, Claude Code, Gemini) over the Agent Client Protocol. The coding agent has full access to your project files and terminal — it can write, edit, run, and test code for you."
+      default-agent: Default Coding Agent
+      default-agent-description: Which AI coding agent AIRI should use when you ask her to write code
+      default-cwd: Default Project Directory
+      default-cwd-description: Absolute path to the project AIRI should work on by default. Leave empty to use the current directory at call time.
+      default-cwd-placeholder: "/home/me/my-project"
+      permission-mode: Permission Mode
+      permission-mode-description: How the coding agent handles file and terminal access
+      perm-approve-reads: "Auto-approve reads, prompt for writes (recommended)"
+      perm-approve-all: "Auto-approve everything — fully autonomous"
+      perm-deny-all: "Deny all tool access — read-only / planning mode"
+      tools-title: Available Tools
+      prereqs-title: "Prerequisites (install the agent you want to use):"
+      prereq-acpx: "acpx is bundled — no install needed (uses npx acpx@latest)"
+      prereq-opencode: "OpenCode: npx opencode-ai  or  brew install opencode-ai/tap/opencode"
+      prereq-codex: "Codex: https://codex.openai.com  |  Claude Code: https://claude.ai/code  |  Gemini: gemini CLI"
+      recent-sessions: Recent Sessions
+      clear-sessions: Clear
+      configured: Code Agent is ready!
     categories:
       essential: Essential
       messaging: Messaging
