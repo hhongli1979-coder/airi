@@ -13,13 +13,15 @@ import { ref, toRaw } from 'vue'
 import { useAnalytics } from '../composables'
 import { useLlmmarkerParser } from '../composables/llm-marker-parser'
 import { categorizeResponse, createStreamingCategorizer } from '../composables/response-categoriser'
-import { createDatetimeContext } from './chat/context-providers'
+import { createDatetimeContext, createLongTermMemoryContext } from './chat/context-providers'
 import { useChatContextStore } from './chat/context-store'
 import { createChatHooks } from './chat/hooks'
 import { useChatSessionStore } from './chat/session-store'
 import { useChatStreamStore } from './chat/stream-store'
 import { useLLM } from './llm'
 import { useConsciousnessStore } from './modules/consciousness'
+import { useLongTermMemoryStore } from './modules/memory-long-term'
+import { useShortTermMemoryStore } from './modules/memory-short-term'
 
 interface SendOptions {
   model: string

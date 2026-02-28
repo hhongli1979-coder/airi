@@ -1,0 +1,104 @@
+import { useLocalStorageManualReset } from '@proj-airi/stage-shared/composables'
+import { useLocalStorage } from '@vueuse/core'
+import { nanoid } from 'nanoid'
+import { defineStore } from 'pinia'
+import { computed } from 'vue'
+
+export interface MemoryEntry {
+  id: string
+  content: string
+  tags: string[]
+  createdAt: number
+  updatedAt: number
+}
+
+/**
+ * Long-term memory stores facts and key information AIRI should remember
+ * across all sessions.  Entries are persisted in localStorage and injected
+ * as a context message before every LLM call so AIRI always has them in view.
+ */
+export const useLongTermMemoryStore = defineStore('memory:long-term', () => {
+  const enabled = useLocalStorageManualReset<boolean>('settings/memory/long-term/enabled', true)
+
+  /**
+   * Maximum number of memory entries to inject into each chat context.
+   * The most recently updated entries take priority.
+   * Set to 0 to inject all entries.
+   */
+  const maxInjectedEntries = useLocalStorageManualReset<number>('settings/memory/long-term/max-injected', 10)
+
+  /**
+   * All persisted memory entries.
+   */
+  const entries = useLocalStorage<MemoryEntry[]>('settings/memory/long-term/entries', [])
+
+  const configured = computed(() => enabled.value && entries.value.length > 0)
+
+  /** Entries sorted by most recently updated first. */
+  const sortedEntries = computed(() =>
+    [...entries.value].sort((a, b) => b.updatedAt - a.updatedAt),
+  )
+
+  function addEntry(content: string, tags: string[] = []): MemoryEntry {
+    const now = Date.now()
+    const entry: MemoryEntry = {
+      id: nanoid(),
+      content: content.trim(),
+      tags,
+      createdAt: now,
+      updatedAt: now,
+    }
+    entries.value = [...entries.value, entry]
+    return entry
+  }
+
+  function updateEntry(id: string, content: string, tags?: string[]) {
+    entries.value = entries.value.map(entry =>
+      entry.id === id
+        ? { ...entry, content: content.trim(), tags: tags ?? entry.tags, updatedAt: Date.now() }
+        : entry,
+    )
+  }
+
+  function deleteEntry(id: string) {
+    entries.value = entries.value.filter(entry => entry.id !== id)
+  }
+
+  function clearAllEntries() {
+    entries.value = []
+  }
+
+  /**
+   * Returns the entries that should be injected into the current chat context,
+   * respecting `maxInjectedEntries`.
+   */
+  function getEntriesForContext(): MemoryEntry[] {
+    if (!enabled.value)
+      return []
+    const sorted = sortedEntries.value
+    if (maxInjectedEntries.value > 0)
+      return sorted.slice(0, maxInjectedEntries.value)
+    return sorted
+  }
+
+  function resetState() {
+    enabled.reset()
+    maxInjectedEntries.reset()
+    // Intentionally keep entries – the user must clear them explicitly.
+  }
+
+  return {
+    enabled,
+    maxInjectedEntries,
+    entries,
+    sortedEntries,
+    configured,
+
+    addEntry,
+    updateEntry,
+    deleteEntry,
+    clearAllEntries,
+    getEntriesForContext,
+    resetState,
+  }
+})
